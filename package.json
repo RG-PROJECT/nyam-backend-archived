@@ -1,0 +1,19 @@
+{
+  "name": "nyam-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "author": "goodri",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mongoose": "^5.3.2",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.18.4"
+  }
+}
