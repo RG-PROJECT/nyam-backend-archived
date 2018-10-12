@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const Order = require('../models/orders');
 const Product = require('../models/products');
 
+//test
 router.get('/', (req, res, next) => {
     Order.find()
         .select('quantity product _id')
