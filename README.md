@@ -2,7 +2,7 @@
 
 # Goal
 
-## 📷 Record 👏 Feedback 🍻‍ Group
+📷 Record 👏 Feedback 🍻‍ Group
 
 # 🍗 Basic Features
 
@@ -32,13 +32,11 @@
 
 # 🍟 Dependencies
 
-```
 - express
 - nodemon (Auto update)
 - morgan (Displays method called on console)
 - body-parser
 - mongoose
-```
 
 # TIL 🥨 Remind
 
