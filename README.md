@@ -1,20 +1,36 @@
 # nyam-backend-memo
 
-## Goal
+# Goal
 
-### 📷 Record | 👏 Feedback | 👯‍ Group
+## 📷 Record 👏 Feedback 🍻‍ Group
 
-## Features
+# 🍗 Basic Features
 
-- Planning the diet
-- Easy feedback (custom feedback)
+- Write everyday diet & exercise.
+- With a group!
+- Give group member a comment & reaction.
+
+# 🍖 Further Features
+
+- Group
+  - Share Result
+  - Share Group Link
+  - Custom Group Reaction
+  - Group Goal and Notice
+  - Putting into competition with...
+- Planning futere diet
+  - Plan today diet menu in the morning
+  - Show if you fulfilled it
+- Easy feedback
+  - Custom feedback
 - Uploading should be easy as possible
   - taking photo & upload -> upload finish!
   - auto creating title for easy recording
   - custom template
   - auto completing based on user history
+- Desktop stand alone app
 
-## Dependencies list
+# 🍟 Dependencies
 
 ```
 - express
@@ -26,7 +42,7 @@
 
 # TIL 🥨 Remind
 
-## Express Hello, world
+## 🚙 Express Hello, world
 
 ```javascript
 var express = require("express");
@@ -41,23 +57,25 @@ app.listen(3000);
 
 ## 🚗 Routing express.Router
 
-Use the express.Router to create modular.
-
-It by itself is a complete middleware and routing system.
+Use the express.Router to create modular. It by itself is a complete middleware and routing system.
 
 To use this, You can group URI regardless of HTTP Methods
 
 (ex) localhost:3000/hello
 
+- 📁 app.js
+
 ```javascript
-// 📁 app.js
 const express = require("express");
 const app = express();
-const greetingRoutes = require("./api/routes/greetings");
+const greetingRoutes = require("./routes/greetings");
 
 app.use("/hello", greetingRoutes);
+```
 
-// 📁 greetings.js
+- 📁 greetings.js
+
+```javascript
 const exrpess = require("express");
 const router = express.Router();
 
@@ -67,7 +85,8 @@ router.get("/", (req, res, next) => {
   });
   next(); // callback function of middleware
 });
-module.exports = router; // DON'T FORGET EXPORT THE MOULE!
+
+module.exports = router; // DON'T FORGET EXPORT
 ```
 
 ## 🎰 JS Random
