@@ -1,12 +1,26 @@
-const express = require("express");
-const app = express();
-const morgan = require("morgan");
-const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
+const express = require("express"),
+      app = express(),
+      morgan = require("morgan"),
+      bodyParser = require("body-parser"),
+      mongoose = require("mongoose")
+      crypto = require('crypto');
 
-const productRoutes = require("./api/routes/products");
-const orderRoutes = require("./api/routes/orders");
-const cardRoutes = require("./api/routes/cards");
+
+const sha512 = (password) => {
+  const salt = 'trace-excavation-frame';
+  const hash = crypto.createHmac('sha512', salt);
+  hash.update(password);
+  return hash.digest('hex');
+};
+
+// controller
+const passport = require("./api/controller/passport")({sha512:sha512});
+
+// api
+const productRoutes = require("./api/routes/products"),
+      orderRoutes = require("./api/routes/orders"),
+      cardRoutes = require("./api/routes/cards"),
+      userRoutes = require("./api/routes/users")();
 
 const connect = () => {
   console.log("connect success!");
@@ -16,13 +30,18 @@ const connect = () => {
     process.env.MONGO_ATLAS_ADDR;
   return mongoose.connect(
     uri,
-    { useNewUrlParser: true }
-  );
+    {
+      useCreateIndex: true,
+      useNewUrlParser: true 
+    });
 };
+
 
 connect();
 
 app.use(morgan("dev"));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -42,6 +61,7 @@ app.use((req, res, next) => {
 app.use("/products", productRoutes);
 app.use("/orders", orderRoutes);
 app.use("/cards", cardRoutes);
+app.use("/users", userRoutes);
 
 app.use((req, res, next) => {
   const error = new Error("Not found");

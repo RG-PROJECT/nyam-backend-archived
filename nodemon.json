@@ -1,0 +1,6 @@
+{
+  "env": {
+    "MONGO_ATLAS_PW": "lllppp12",
+    "MONGO_ATLAS_ADDR": "@nyam-shard-00-00-6akso.mongodb.net:27017,nyam-shard-00-01-6akso.mongodb.net:27017,nyam-shard-00-02-6akso.mongodb.net:27017/test?ssl=true&replicaSet=nyam-shard-0&authSource=admin&retryWrites=true"
+  }
+}
