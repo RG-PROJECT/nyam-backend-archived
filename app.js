@@ -14,13 +14,13 @@ const sha512 = (password) => {
 };
 
 // controller
-const passport = require("./api/controller/passport")({sha512:sha512});
+const passport = require("./api/controller/passport")(sha512);
 
 // api
 const productRoutes = require("./api/routes/products"),
       orderRoutes = require("./api/routes/orders"),
       cardRoutes = require("./api/routes/cards"),
-      userRoutes = require("./api/routes/users")();
+      userRoutes = require("./api/routes/users")(sha512, passport);
 
 const connect = () => {
   console.log("connect success!");
