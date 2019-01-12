@@ -1,24 +1,24 @@
-module.exports = function({dbController, sha512}) {
+module.exports = function(sha512) {
     const passport = require('passport');
-
+    const User = require('../models/Users');
     const LocalStrategy = require('passport-local').Strategy;
+
     passport.serializeUser(function(user, done) {
-        console.log('[' + new Date().toUTCString() + '] user logged in: ' + user.email + ' / ' + user.username);
-        done(null, user.id); // 세션에 id 저장
+        console.log('[' + new Date().toUTCString() + '] user logged in: ' + user.email + ' / ' + user.name);
+        done(null, user._id); // 세션에 id 저장
     });
 
     passport.deserializeUser(function(userId, done) {
         // DB에서 사용자 데이터 가져오기.
-
-        // dbController.selectUserByIdx(idx).then(function(result) {
-        //     if (result.length > 0) {
-        //         done(null, result[0]);
-        //     }else {
-        //         done(false, null, { message: 'Can\'t find user data' });
-        //     }
-        // }).catch(function(error) {
-        //     done(false, error, { message: 'db error' });
-        // });
+        User.findById(userId).exec().then(user => {
+            if (!user) {
+                done(false, null, { message: 'Can\'t find user data' });
+                return;
+            }
+            done(null, user);
+        }).catch(error => {
+            done(false, error, { message: 'db error' });
+        });
     });
 
     passport.use(new LocalStrategy({
@@ -27,7 +27,18 @@ module.exports = function({dbController, sha512}) {
         session: true,
         passReqToCallback: false
     }, function(email, pw, done) {
-        pw = sha512(pw);
+        hashedPw = sha512(pw);
+        User.findOne({ email:email, pw:hashedPw }).exec()
+        .then(user => {
+            if (!user) {
+                done(null, false, { message: '입력하신 정보를 확인해주세요.' });
+                return;
+            }
+            done(null, user);
+        }).catch(error => {
+            console.error('Login DB Error ', error);
+            done(null, false, { message: 'DB Error' });
+        });
     }));
 
     return passport;
