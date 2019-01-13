@@ -2,7 +2,7 @@ module.exports = function(sha512, passport) {
     const express = require('express');
     const router = express.Router();
     const mongoose = require('mongoose');
-    const User = require('../models/Users');
+    const User = require('../models/users');
 
     const EMAIL_PATTERN = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
     // const ALPHANUM_PATTERN = new RegExp(/^[a-z0-9]+$/i);

@@ -1,6 +1,6 @@
 module.exports = function(sha512) {
     const passport = require('passport');
-    const User = require('../models/Users');
+    const User = require('../models/users');
     const LocalStrategy = require('passport-local').Strategy;
 
     passport.serializeUser(function(user, done) {
