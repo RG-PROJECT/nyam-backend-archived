@@ -4,7 +4,7 @@ const Card = require("../models/cards");
 const router = express.Router();
 
 router.get("/", (req, res, next) => {
-  Card.find()
+  Card.find().sort({regdate: -1})
     .exec()
     .then(docs => {
       console.log(docs);
