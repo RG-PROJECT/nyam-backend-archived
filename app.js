@@ -1,7 +1,9 @@
 const express = require("express"),
       app = express(),
+      session = require('express-session'),
       morgan = require("morgan"),
       bodyParser = require("body-parser"),
+      cookieParser = require('cookie-parser'),
       mongoose = require("mongoose")
       crypto = require('crypto');
 
@@ -22,6 +24,13 @@ const productRoutes = require("./api/routes/products"),
       cardRoutes = require("./api/routes/cards"),
       userRoutes = require("./api/routes/users")(sha512, passport);
 
+const sessionMiddleware = session({
+  secret: 'Ny@MPrOj3c4',
+  resave: true,
+  saveUninitialized: true,
+  cookie: { secure: false } // TODO: true
+});
+
 const connect = () => {
   console.log("connect success!");
   const uri =
@@ -35,15 +44,18 @@ const connect = () => {
       useNewUrlParser: true 
     });
 };
-
-
 connect();
 
+
 app.use(morgan("dev"));
-app.use(passport.initialize());
-app.use(passport.session());
+
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(sessionMiddleware);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
