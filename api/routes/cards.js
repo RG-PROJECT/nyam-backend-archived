@@ -17,7 +17,7 @@ router.get("/", (req, res, next) => {
             limit = v;
     }
     console.log(`page:${page}, limit:${limit}`);
-    Card.find()
+    Card.find().populate('author', 'name')
         .sort({regdate: -1})
         .skip((page - 1) * limit)
         .limit(limit)
@@ -33,18 +33,33 @@ router.get("/", (req, res, next) => {
 });
 
 router.post("/", (req, res, next) => {
+    if (!req.isAuthenticated()) {
+        const error = new Error("Need login");
+        error.status = 402;
+        next(error);
+        return;
+    }
+    console.log(req.body);
+    if (typeof req.body.title === 'undefined' || typeof req.body.text === 'undefined') {
+        const error = new Error("Invalid input");
+        error.status = 403;
+        next(error);
+        return;
+    }
+
+    const title = req.body.title;
+    const text = req.body.text;
     // min 200 ~ max 300
     const randNum = Math.floor(Math.random() * (300 - 200 + 1)) + 200;
     const card = new Card({
         _id: new mongoose.Types.ObjectId(),
-        title: req.body.title,
-        author: req.body.author,
+        title: title,
+        author: req.user,
         img: "https://picsum.photos/" + randNum,
-        text: "Hello Nyam! 냠 🐿"
+        text: text
     });
 
-    card
-        .save()
+    card.save()
         .then(result => {
             console.log(result);
             res.status(201).json({

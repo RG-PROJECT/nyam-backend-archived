@@ -4,12 +4,13 @@ module.exports = function(sha512) {
     const LocalStrategy = require('passport-local').Strategy;
 
     passport.serializeUser(function(user, done) {
-        console.log('[' + new Date().toUTCString() + '] user logged in: ' + user.email + ' / ' + user.name);
+        console.log(`[${new Date().toUTCString()}] user logged in: ${user.email} / ${user.name} / ${user._id}`);
         done(null, user._id); // 세션에 id 저장
     });
 
     passport.deserializeUser(function(userId, done) {
         // DB에서 사용자 데이터 가져오기.
+        console.log(`userId: ${userId}`);
         User.findById(userId).exec().then(user => {
             if (!user) {
                 done(false, null, { message: 'Can\'t find user data' });

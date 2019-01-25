@@ -8,6 +8,7 @@ module.exports = function(sha512, passport) {
     // const ALPHANUM_PATTERN = new RegExp(/^[a-z0-9]+$/i);
 
     router.post('/login', (req, res, next) => {
+        console.log(req.isAuthenticated());
         if (req.isAuthenticated()) {
             const error = new Error("Already logged in");
             error.status = 402;
