@@ -4,8 +4,8 @@ const fs = require('fs');
 const app = require('./app');
 
 const PORT = process.env.PORT || 2083;
-const CREDENTIAL_CERT_PATH = './cert/nyam.deerwhite.net.pem';
-const CREDENTIAL_KEY_PATH = './cert/nyam.deerwhite.net.key';
+const CREDENTIAL_CERT_PATH = '../cert/nyam.deerwhite.net.pem';
+const CREDENTIAL_KEY_PATH = '../cert/nyam.deerwhite.net.key';
 
 const credentials = {
 	cert: fs.readFileSync(CREDENTIAL_CERT_PATH, 'utf8'),
