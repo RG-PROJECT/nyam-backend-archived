@@ -7,6 +7,20 @@ module.exports = function(sha512, passport) {
     const EMAIL_PATTERN = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
     // const ALPHANUM_PATTERN = new RegExp(/^[a-z0-9]+$/i);
 
+    router.get('/me', (req,res,next) => {
+        if (!req.isAuthenticated()) {
+            const error = new Error("need login");
+            error.status = 402;
+            next(error);
+            return;
+        }
+        console.log(req.user);
+        res.status(200).json({
+            id: req.user.id,
+            name: req.user.name,
+            email: req.user.email
+        });
+    });
     router.post('/login', (req, res, next) => {
         console.log(req.isAuthenticated());
         if (req.isAuthenticated()) {
